@@ -1,5 +1,6 @@
 require 'base64'
 require 'json'
+require 'uri'
 require 'httpclient'
 require 'dotenv'
 
@@ -50,7 +51,8 @@ end
 module GCP
   class CloudVision
     def request(feature_type, image_file)
-      base64_image = base64_encode image_file
+      image = open_or_download image_file
+      base64_image = base64_encode image
       request_body = create_request_body feature_type, base64_image
       response = execute_cloud_vision request_body
       puts response
@@ -78,8 +80,16 @@ module GCP
       HTTPClient.new.post_content(api_url, body, 'Content-Type' => 'application/json')
     end
 
-    def base64_encode(image_file)
-      Base64.strict_encode64(File.new(image_file, 'rb').read)
+    def base64_encode(image)
+      Base64.strict_encode64(image)
+    end
+
+    def open_or_download(image_file)
+      if URI.extract(image_file).first.nil? then
+        File.new(image_file, 'rb').read
+      else
+        HTTPClient.new.get_content(image_file)
+      end
     end
 
     def api_url
