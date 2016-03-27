@@ -4,7 +4,7 @@ This is a sample of Google Cloud Vision API.
 
 ## Before you begin
 
-(Set up an API key)[https://cloud.google.com/vision/docs/auth-template/cloud-api-auth?hl=ja#set_up_an_api_key]
+[Set up an API key](https://cloud.google.com/vision/docs/auth-template/cloud-api-auth?hl=ja#set_up_an_api_key)
 
 ## Requirement
 
